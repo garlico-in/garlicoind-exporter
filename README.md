@@ -21,17 +21,32 @@ npm start
 Using environment variables:
 ```
 docker run -d --restart always --name my-exporter -p 9439:9439 -e "rpcuser=myrpcuser" -e "rpcpassword=myrpcpassword" -e "rpchost=my-wallet" --link my-wallet xhissy/garlicoin-exporter
-````
-
-Using a `.env` file:
-```
-docker run -d --restart always --name my-exporter -p 9439:9439 -v /path/to/my/conf:/app/.env --link my-wallet xhissy/garlicoin-exporter
 ```
 
->An easy hack could be to directly use your wallet conf to feed your exporter `env`:
->```
->docker run --name my-exporter -p 9439:9439 -v /path/to/my/conf:/app/.env --link my-wallet xhissy/garlicoin-exporter
->```
+### Docker Compose Example
+```
+  garlicoin:
+    image: example/garlicoin
+    container_name: garlicoin
+    ports:
+      - 42068:42068
+      - 42069:42069
+    restart: always
+    
+  grlc-exporter:
+    image: xhissy/garlicoind-exporter
+    container_name: grlc-exporter
+    ports:
+      - 9439:9439
+    environment:
+      - rpchost=garlicoin
+      - rpcuser={{ rpc_username }}
+      - rpcpassword={{ rpc_password }}
+      - rpcport=42068
+    links:
+      - garlicoin
+    restart: always
+```
 
 ## Example metrics
 When visiting the metrics URL http://localhost:9439/metrics the following **metrics** are produced:
