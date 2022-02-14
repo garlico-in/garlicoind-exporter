@@ -10,7 +10,7 @@ const difficulty = new Gauge({
 });
 const verification_progress = new Gauge({
     name: 'garlicoind_verification_progress',
-    help: 'this noodes verification progress',
+    help: 'this nodes verification progress',
 });
 const size_on_disk = new Gauge({
     name: 'garlicoind_size_on_disk',
