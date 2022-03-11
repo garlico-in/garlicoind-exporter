@@ -1,6 +1,15 @@
-version: '2'
+version: "3.9"
 services:
-  exporter:
-    build: .
+
+  {{ role }}-garlicoin-exporter:
+    container_name: {{ role }}-garlicoin-exporter
     ports:
-      - "9439:9439"
+      - {{ monitor_port }}:9439
+    environment:
+      - rpchost={{ role }}-garlicoin
+      - rpcuser={{ rpc_username }}
+      - rpcpassword={{ rpc_password }}
+      - rpcport={{ rpc_port }}
+    links:
+      - {{ role }}-garlicoin
+    restart: always
